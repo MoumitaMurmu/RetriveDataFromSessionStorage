@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import React, { useState, useEffect } from "react";
 
 function App() {
+  const [name, setName] = useState("");
+  const [savedName, setSavedName] = useState("");
+
+  useEffect(() => {
+    // TODO: Retrieve saved name from session storage
+    const savedName = sessionStorage.getItem("savedName");
+    if(savedName){
+      setSavedName(savedName);
+    }
+  }, []);
+
+  const handleInputChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleSaveButtonClick = () => {
+    // TODO: Save name to session storage
+    sessionStorage.setItem("savedName", name);
+    setSavedName(name);
+    setName("");
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <br/>
+      <input type="text" value={name} onChange={handleInputChange} />
+      <button onClick={handleSaveButtonClick}>Save</button>
+      <br/>
+      {savedName && <p>Saved name: {savedName}</p>}
     </div>
   );
 }
